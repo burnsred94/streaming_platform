@@ -1,7 +1,19 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import {Table, Column, Model, DataType, HasOne, HasMany} from 'sequelize-typescript';
+import { UserInterface } from "./interfaces/user.interface";
+import { Token } from "../token/token.entity";
+import { Mail } from "../mail/mail.entity";
+
+
 
 @Table
-export class User extends Model<User> {
+export class User extends Model<User> implements UserInterface{
+    @Column({
+        type: DataType.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    })
+    id: number
+
     @Column({
         type: DataType.STRING,
         allowNull: false
@@ -27,4 +39,13 @@ export class User extends Model<User> {
         allowNull: false
     })
     gender: string;
+
+
+    @HasOne(()=> Token, 'userId')
+    tokens: Token[]
+
+    @HasOne(()=> Mail, 'userId')
+    activateAcc: Mail[]
 }
+
+
