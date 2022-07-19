@@ -32,7 +32,7 @@ export class UsersService {
 
     async updateUser(id: string, values: object): Promise<User>{
         await this.userRepository.update({...values},{ where: {id}})
-        return this.findOneById(id)
+        return await this.findOneById(id)
     }
 
 }
